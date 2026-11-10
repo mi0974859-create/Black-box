@@ -1,0 +1,131 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BLACK BOX – AI Manager Challenge</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#03050c;--cy:#00f0ff;--rd:#ff2a4d;--gd:#f5c542;--tx:#d8e6ff;--mut:#7c8cab}
+*{box-sizing:border-box;margin:0}
+body{min-height:100vh;background:radial-gradient(1200px 700px at 50% -10%,#10204a 0,var(--bg) 62%) fixed;color:var(--tx);font:500 17px/1.5 Rajdhani,system-ui,sans-serif;overflow-x:hidden}
+h1,h2,h3,.o{font-family:Orbitron,system-ui,sans-serif;letter-spacing:.08em}
+#fx{position:fixed;inset:0;z-index:0;pointer-events:none}#app{position:relative;z-index:1}
+#mute{position:fixed;top:10px;right:10px;z-index:9;background:#0008;border:1px solid #ffffff33;color:#fff;border-radius:50%;width:38px;height:38px;cursor:pointer}
+.fade{animation:fd .6s both;max-width:1100px;margin:0 auto;padding:18px 16px 110px}@keyframes fd{from{opacity:0;transform:translateY(14px)}}
+.hero{text-align:center;padding-top:6vh}
+h1{font-size:clamp(44px,13vw,100px);font-weight:900;color:#fff;text-shadow:0 0 30px #00f0ff88;line-height:1.05}h1 span{color:var(--rd);text-shadow:0 0 30px #ff2a4daa}
+.tag{color:var(--gd);font-size:clamp(14px,3.8vw,24px);margin:6px 0 14px}
+.ttl{text-align:center;font-size:clamp(20px,5vw,30px);color:#fff;margin:14px 0 4px;text-shadow:0 0 18px #00f0ff66}
+.sub{color:var(--mut);max-width:640px;margin:8px auto 22px;text-align:center}
+.panel{background:linear-gradient(160deg,#0c1631dd,#060a18dd);border:1px solid #00f0ff33;border-radius:14px;padding:20px;margin:18px auto;max-width:560px;box-shadow:0 0 40px #00f0ff14,inset 0 0 30px #0006;text-align:left}
+.panel small{display:block;color:var(--mut);margin-top:10px}
+input{width:100%;margin:10px 0 14px;padding:14px;border-radius:10px;border:1px solid #00f0ff55;background:#050914;color:#fff;font:700 19px Rajdhani;outline:0}input:focus{box-shadow:0 0 0 3px #00f0ff33}
+.btn{cursor:pointer;border:1px solid var(--cy);background:#00f0ff14;color:var(--cy);font:700 13px Orbitron;letter-spacing:.12em;padding:14px 22px;border-radius:10px;transition:.2s}
+.btn:hover:not(:disabled){background:var(--cy);color:#001018;box-shadow:0 0 24px #00f0ff88}
+.gold{border-color:var(--gd);color:var(--gd);background:#f5c54212}.gold:hover:not(:disabled){background:var(--gd)!important;color:#150f00!important;box-shadow:0 0 24px #f5c54299!important}
+.red{border-color:var(--rd);color:#fff;background:#ff2a4d33;animation:pl 1.6s infinite}.red:hover{background:var(--rd)!important;color:#fff!important}
+.btn:disabled{opacity:.35;cursor:not-allowed}.big{display:block;margin:24px auto;padding:18px 34px;font-size:15px}
+@keyframes pl{50%{box-shadow:0 0 30px #ff2a4daa}}
+.err{color:var(--rd);min-height:1.4em;margin-top:8px}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 0;position:sticky;top:0;z-index:4;background:linear-gradient(#03050c 60%,transparent)}
+.bud{text-align:right;min-width:150px;padding-right:44px}.bud span{font-size:30px;color:var(--gd)}.bud small{display:block;color:var(--mut);font-size:11px;letter-spacing:.14em}
+.bud i{display:block;height:6px;background:#ffffff14;border-radius:4px;overflow:hidden}.bud u{display:block;height:100%;width:100%;background:linear-gradient(90deg,var(--rd),var(--gd),var(--cy));transition:width .4s}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.card{background:linear-gradient(160deg,#0d1836,#070c1c);border:1px solid #ffffff1a;border-radius:14px;padding:16px;transition:.25s;position:relative;overflow:hidden}
+.card:hover{transform:translateY(-3px);border-color:#00f0ff88;box-shadow:0 0 26px #00f0ff22}
+.card h3{font-size:14px;color:#fff;margin-bottom:6px}.card p{color:var(--mut);font-size:15px;min-height:46px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px}.price{font:700 19px Orbitron;color:var(--gd);white-space:nowrap}
+.buy{cursor:pointer;flex:1;border:1px solid var(--cy);background:transparent;color:var(--cy);border-radius:8px;padding:9px 6px;font:700 10px Orbitron;letter-spacing:.05em}.buy:disabled{opacity:.4;cursor:not-allowed}
+.card.on{border-color:var(--gd);box-shadow:0 0 30px #f5c54233}.card.on::after{content:'✓';position:absolute;top:8px;right:12px;color:var(--gd);font-size:22px}.card.on .buy{border-color:var(--gd);color:var(--gd);background:#f5c54214}.card.off{opacity:.5}
+.dock{position:fixed;bottom:0;left:0;right:0;z-index:5;display:flex;justify-content:center;align-items:center;gap:16px;padding:14px;background:linear-gradient(transparent,#03050c 35%)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:10px 0}.chip{border:1px solid #00f0ff55;border-radius:99px;padding:3px 12px;font-size:14px;color:var(--cy);background:#00f0ff0f}.chip.g{border-color:var(--gd);color:var(--gd)}
+.scene{perspective:900px;height:calc(var(--s) * 1.8);display:grid;place-items:center;position:relative;--s:min(44vmin,220px)}
+.scene::after{content:'';position:absolute;bottom:4%;width:62%;height:26px;background:radial-gradient(ellipse,#ff2a4d77,#00f0ff22 55%,transparent 72%);filter:blur(9px)}
+.bob{transform-style:preserve-3d;animation:bob 3.5s ease-in-out infinite}@keyframes bob{50%{transform:translateY(-16px)}}
+.cube{width:var(--s);height:var(--s);position:relative;transform-style:preserve-3d;animation:sp 12s linear infinite}@keyframes sp{from{transform:rotateX(-22deg) rotateY(0)}to{transform:rotateX(-22deg) rotateY(360deg)}}
+.f{position:absolute;inset:0;background:linear-gradient(145deg,#080c19,#0d1630);border:2px solid #00f0ff55;box-shadow:inset 0 0 36px #000,0 0 22px #ff2a4d44;display:grid;place-items:center}
+.f::before{content:'';position:absolute;inset:10px;border:1px solid #ffffff17;background:repeating-linear-gradient(90deg,transparent 0 14px,#ffffff09 14px 15px)}
+.f1{transform:translateZ(calc(var(--s)/2))}.f2{transform:rotateY(180deg) translateZ(calc(var(--s)/2))}.f3{transform:rotateY(90deg) translateZ(calc(var(--s)/2))}.f4{transform:rotateY(-90deg) translateZ(calc(var(--s)/2))}.f5{transform:rotateX(90deg) translateZ(calc(var(--s)/2))}.f6{transform:rotateX(-90deg) translateZ(calc(var(--s)/2))}
+.eye{width:34%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#fff 0,var(--rd) 30%,#40000f 72%);box-shadow:0 0 30px var(--rd),0 0 70px #ff2a4d88;animation:ey 1.4s ease-in-out infinite;position:relative}@keyframes ey{50%{transform:scale(.8);opacity:.7}}
+.led{position:absolute;width:10px;height:10px;border-radius:50%;background:var(--cy);box-shadow:0 0 12px var(--cy);animation:bl 1s infinite}.l1{top:14px;left:14px}.l2{top:14px;right:14px;background:var(--rd);box-shadow:0 0 12px var(--rd);animation-delay:.4s}.l3{bottom:14px;left:14px;animation-delay:.2s}@keyframes bl{50%{opacity:.15}}
+.core{position:absolute;inset:25%;background:radial-gradient(circle,#fff,var(--cy) 40%,transparent 70%);transform:scale(.1);opacity:0;transition:transform 1.4s,opacity 1.4s}
+.opening .core{transform:scale(3.2);opacity:1}.opening .f5{transition:transform 1.3s cubic-bezier(.2,.8,.2,1),opacity 1.3s;transform:rotateX(90deg) translateZ(calc(var(--s)/2 + 240px));opacity:0}
+.shake{animation:sk .09s infinite}@keyframes sk{25%{transform:translate(-5px,3px) rotate(-.6deg)}50%{transform:translate(5px,-3px) rotate(.6deg)}75%{transform:translate(-3px,-4px)}}
+.cd{font:900 clamp(70px,22vw,150px)/1 Orbitron;color:#fff;text-shadow:0 0 30px var(--rd);text-align:center;height:1.05em}.pop{animation:pp .95s}@keyframes pp{0%{transform:scale(2.4);opacity:0}25%{opacity:1}100%{transform:scale(.8);opacity:.5}}
+#flash{position:fixed;inset:0;z-index:8;pointer-events:none;opacity:0;background:radial-gradient(circle,#fff,#00f0ff 40%,transparent 72%)}#flash.go{animation:fl 1.8s ease-out}@keyframes fl{12%{opacity:1}100%{opacity:0}}
+.alarm{border-color:var(--rd);box-shadow:0 0 50px #ff2a4d33;max-width:720px}.fact{font-size:19px;margin:12px 0;padding-left:14px;border-left:3px solid var(--rd);animation:fd .8s both}.mission{margin-top:16px;color:var(--gd);font-weight:700;font-size:20px}
+.think{text-align:center}.ring{position:relative;width:180px;height:180px;margin:30px auto;display:grid;place-items:center}.ring i{position:absolute;inset:0;border-radius:50%;border:2px dashed var(--cy);animation:rt 6s linear infinite}.ring i:nth-child(2){inset:18px;border-color:var(--rd);animation-duration:4s;animation-direction:reverse}.ring i:nth-child(3){inset:38px;border-color:var(--gd);animation-duration:2.5s}@keyframes rt{to{transform:rotate(360deg)}}.ring b{font-size:34px;color:#fff;text-shadow:0 0 20px var(--cy)}
+.pb{height:6px;max-width:420px;margin:18px auto;background:#ffffff14;border-radius:4px;overflow:hidden}.pb u{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cy),var(--gd));transition:width .5s}
+.rep{display:grid;gap:14px;max-width:820px;margin:20px auto}.rc{background:#0a1229dd;border:1px solid #00f0ff22;border-left:3px solid var(--cy);border-radius:12px;padding:16px;animation:fd .7s both}.rc h3{color:var(--gd);font-size:13px;margin-bottom:6px}.rc h3 span{color:var(--cy);margin-right:10px}
+.sc{position:relative;width:min(70vw,260px);margin:18px auto}.sc svg{width:100%;display:block}.trk{fill:none;stroke:#ffffff14;stroke-width:12}.arc{fill:none;stroke:url(#g);stroke-width:12;stroke-linecap:round;transition:stroke-dashoffset 2.6s cubic-bezier(.2,.8,.2,1);filter:drop-shadow(0 0 8px var(--cy))}
+.num{position:absolute;inset:0;display:grid;place-content:center;text-align:center}.num b{font-size:clamp(44px,14vw,72px);color:#fff;text-shadow:0 0 24px var(--cy)}.num small{color:var(--mut)}
+.lvl{text-align:center;color:var(--gd);font-size:clamp(18px,5vw,28px);text-shadow:0 0 20px #f5c54266;min-height:1.4em}
+.bd{max-width:620px;margin:16px auto}.br{display:grid;grid-template-columns:1fr 1.1fr 46px;gap:10px;align-items:center;margin:9px 0;font-size:15px}.br i{height:10px;background:#ffffff14;border-radius:6px;overflow:hidden}.br u{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cy),var(--gd));transition:width 1s}.br b{text-align:right;color:var(--gd)}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:20px 0}
+.sk{perspective:800px;height:150px}.in{position:relative;height:100%;transition:transform .9s;transform-style:preserve-3d}.sk.flip .in{transform:rotateY(180deg)}
+.sk .fr,.sk .bk{position:absolute;inset:0;backface-visibility:hidden;border-radius:14px;display:grid;place-content:center;text-align:center;padding:10px}
+.sk .fr{background:linear-gradient(160deg,#0d1836,#050914);border:1px solid var(--gd);font-size:48px;color:var(--gd)}
+.sk .bk{transform:rotateY(180deg);border:2px solid}.yes .bk{border-color:#34f5a0;background:#0a2a1f;box-shadow:0 0 30px #34f5a055}.no .bk{border-color:var(--rd);background:#2a0a14;box-shadow:0 0 30px #ff2a4d44}
+.sk .bk h3{font-size:14px;color:#fff}.sk .bk span{margin-top:8px;font:700 13px Orbitron}.yes span{color:#34f5a0}.no span{color:var(--rd)}
+.pass{border-color:#34f5a0}.fail{border-color:var(--rd)}.lock{border-color:var(--gd)}
+.mod{position:fixed;inset:0;z-index:20;background:#000c;display:grid;place-items:center;padding:16px}
+</style></head><body><canvas id=fx></canvas><button id=mute title="Sound">🔊</button><div id=flash></div><main id=app></main>
+<script>
+const $=s=>document.querySelector(s),app=$('#app'),sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let S,SK=[],picked=new Set(),token=localStorage.getItem('bbtoken'),muted=false;
+const SEC=[['analysis','Crisis Analysis'],['rootProblem','Root Problem'],['employeeStrategy','Employee Management Strategy'],['clientStrategy','Client Protection Strategy'],['solution','Proposed Solution'],['risks','Risk Analysis'],['plan','Implementation Plan'],['decision','Final Managerial Decision']];
+const CR=[['critical','Critical Analysis'],['employees','Employee Management'],['client','Client Protection'],['feasibility','Feasibility of the Solution'],['leadership','Leadership & Implementation']];
+async function api(p,b){const r=await fetch('/api/'+p,{method:b?'POST':'GET',headers:{'content-type':'application/json','x-token':token||''},body:b?JSON.stringify(b):undefined});const j=await r.json().catch(()=>({}));if(!r.ok){const e=new Error(j.error||'Request failed');e.code=r.status;throw e}return j}
+const show=h=>{app.innerHTML='<section class=fade>'+h+'</section>';scrollTo(0,0)};
+const ask=h=>new Promise(r=>{const m=document.createElement('div');m.className='mod';m.innerHTML='<div class=panel><p>'+h+'</p><div class=row><button class=btn id=n>CANCEL</button><button class="btn gold" id=y>CONFIRM &amp; LOCK</button></div></div>';document.body.append(m);m.querySelector('#n').onclick=()=>{m.remove();r(false)};m.querySelector('#y').onclick=()=>{m.remove();r(true)}});
+// ---- sound (Web Audio, no files) ----
+let ac;const A={init(){try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume()}catch(e){}},
+tone(f,d=.15,ty='sine',v=.1,w=0){if(muted||!ac)return;const t=ac.currentTime+w,o=ac.createOscillator(),g=ac.createGain();o.type=ty;o.frequency.setValueAtTime(f,t);g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(1e-4,t+d);o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+d+.05)},
+boom(){if(muted||!ac)return;const n=ac.sampleRate*1.6|0,b=ac.createBuffer(1,n,ac.sampleRate),d=b.getChannelData(0);for(let i=0;i<n;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/n,2);const s=ac.createBufferSource(),f=ac.createBiquadFilter(),g=ac.createGain();f.type='lowpass';f.frequency.value=900;g.gain.value=.5;s.buffer=b;s.connect(f);f.connect(g);g.connect(ac.destination);s.start();A.tone(60,1.4,'sawtooth',.25)}};
+// ---- particles: ambient neon dust + smoke/spark bursts ----
+const cv=$('#fx'),cx=cv.getContext('2d');let P=[];const fit=()=>{cv.width=innerWidth;cv.height=innerHeight};fit();addEventListener('resize',fit);
+function spawn(n,x,y,b){for(let i=0;i<n;i++){const a=Math.random()*6.283,s=b?2+Math.random()*7:.2+Math.random()*.5;P.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-(b?1:.3),r:b?2+Math.random()*5:1+Math.random()*1.5,l:b?1:Math.random(),d:b?.012+Math.random()*.012:.002,c:['0,240,255','255,42,77','245,197,66'][i%3],sm:b&&i%4===0})}}
+(function lp(){cx.clearRect(0,0,cv.width,cv.height);if(P.length<60)spawn(1,Math.random()*cv.width,Math.random()*cv.height,false);P=P.filter(p=>p.l>0);for(const p of P){p.x+=p.vx;p.y+=p.vy;p.l-=p.d;if(p.sm){p.r+=.5;p.vx*=.97;p.vy*=.97}cx.shadowBlur=p.sm?0:12;cx.shadowColor='rgb('+p.c+')';cx.fillStyle=p.sm?'rgba(150,160,180,'+Math.max(p.l,0)*.18+')':'rgba('+p.c+','+Math.max(p.l,0)*.8+')';cx.beginPath();cx.arc(p.x,p.y,p.r,0,6.283);cx.fill()}requestAnimationFrame(lp)})();
+// ---- screens ----
+function entry(msg){show(`<div class=hero><p class=o style="color:var(--gd);font-size:12px">SECRET CORPORATE INTELLIGENCE LAB</p><h1>BLACK <span>BOX</span></h1><h2 class=tag>AI MANAGER CHALLENGE</h2><p class=sub>Build a manager. Lock it. Open the Black Box. Then watch your AI manager face the crisis.</p>
+<form id=f class=panel><label class=o style="font-size:12px;color:var(--cy)">TEAM NAME</label><input id=tn maxlength=30 autocomplete=off placeholder="Enter your team name" required><button class="btn big" style="margin:0 auto">ENTER THE LAB</button><p class=err id=er>${esc(msg||'')}</p><small>One attempt per team. Once your result is submitted your team is permanently locked.</small></form></div>`);
+ $('#f').onsubmit=async e=>{e.preventDefault();A.init();$('#er').textContent='';try{const r=await api('register',{team:$('#tn').value});token=r.token;localStorage.setItem('bbtoken',token);S=r.state;route()}catch(x){$('#er').textContent=x.message}}}
+function market(){show(`<div class=bar><b class=o style="font-size:14px">${esc(S.name)}</b><div class=bud><span id=rem class=o>100</span><small>CREDITS LEFT</small><i><u id=mt></u></i></div></div><h2 class=ttl>MANAGER BUILDER</h2><p class=sub>Spend up to 100 credits on skills for your AI manager. You can swap skills until you lock — after that, never again.</p><div class=grid>${SK.map(s=>`<div class=card id=c-${s.id}><h3>${esc(s.name)}</h3><p>${esc(s.desc)}</p><div class=row><span class=price>${s.price} CR</span><button class=buy data-id=${s.id}></button></div></div>`).join('')}</div><div class=dock><span id=cnt style="color:var(--mut)"></span><button id=lk class="btn gold" disabled>LOCK MY MANAGER</button></div>`);
+ const spent=()=>SK.filter(s=>picked.has(s.id)).reduce((a,s)=>a+s.price,0);
+ const upd=()=>{const left=100-spent();$('#rem').textContent=left;$('#mt').style.width=left+'%';$('#cnt').textContent=picked.size+(picked.size==1?' skill':' skills');$('#lk').disabled=!picked.size;
+  SK.forEach(s=>{const on=picked.has(s.id),ok=on||s.price<=left,c=$('#c-'+s.id),b=c.querySelector('.buy');c.classList.toggle('on',on);c.classList.toggle('off',!ok);b.disabled=!ok;b.textContent=on?'✓ PURCHASED · TAP TO REFUND':ok?'BUY SKILL':'NOT ENOUGH CREDITS'})};
+ app.querySelectorAll('.buy').forEach(b=>b.onclick=()=>{A.init();const id=b.dataset.id;picked.has(id)?picked.delete(id):picked.add(id);A.tone(picked.has(id)?740:330,.12);upd()});
+ $('#lk').onclick=async()=>{A.init();if(!await ask('Lock a manager with <b>'+picked.size+' skill'+(picked.size==1?'':'s')+'</b> for <b>'+spent()+' credits</b>?<br><br><b style="color:var(--rd)">This is permanent. You cannot return to the marketplace or change anything.</b>'))return;
+  try{S=await api('lock',{skills:[...picked]});A.tone(220,.5,'square',.08);box()}catch(e){alert(e.message)}};upd()}
+function box(){show(`<div class=bar><b class=o style="font-size:14px">${esc(S.name)}</b><span class="chip g">MANAGER LOCKED</span></div><div class=chips>${S.skills.map(s=>'<span class=chip>'+esc(s)+'</span>').join('')}</div>
+<div class=scene id=sc><div class=bob><div class=cube id=cube><div class="f f1"><i class=eye></i></div><div class="f f2"></div><div class="f f3"><i class="led l1"></i><i class="led l2"></i></div><div class="f f4"><i class="led l3"></i></div><div class="f f5"></div><div class="f f6"></div><div class=core></div></div></div></div>
+<p class=sub id=hint>A sealed container. Something is inside. Your manager is ready.</p><div id=cd class=cd></div><button id=ob class="btn red big">OPEN THE BLACK BOX</button>`);
+ $('#ob').onclick=async e=>{A.init();e.target.remove();$('#hint').textContent='OPENING IN…';const sc=$('#sc'),cd=$('#cd');sc.classList.add('shake');
+  const pr=api('open',{}).then(r=>{S=r}).catch(x=>x);
+  for(let i=3;i>0;i--){cd.textContent=i;cd.classList.remove('pop');void cd.offsetWidth;cd.classList.add('pop');A.tone(300+(3-i)*150,.25,'square',.12);await sleep(1000)}
+  cd.textContent='';sc.classList.remove('shake');$('#cube').classList.add('opening');A.boom();$('#flash').classList.add('go');
+  const r=$('#cube').getBoundingClientRect();spawn(170,r.left+r.width/2,r.top+r.height/2,true);await sleep(2300);
+  const res=await pr;if(res instanceof Error){alert(res.message);return location.reload()}crisis()}}
+function crisis(){show(`<div class="panel alarm"><p class=o style="color:var(--rd);font-size:12px">⚠ CLASSIFIED · PRIORITY ALPHA</p><h2 class=ttl style="text-align:left">${esc(S.crisis.title)}</h2>${S.crisis.facts.map((f,i)=>'<p class=fact style="animation-delay:'+i*.7+'s">'+esc(f)+'</p>').join('')}<p class=mission>${esc(S.crisis.mission)}</p></div><p class=sub>You do not answer or decide anything. Your AI manager analyses the crisis using only the skills you purchased.</p><button id=go class="btn big">ACTIVATE THE AI MANAGER</button>`);$('#go').onclick=()=>{A.init();think()}}
+async function think(){const L=['Loading manager skill profile…','Scanning 18 resignation signals…','Mapping client contract exposure…','Stress-testing the cash constraints…','Simulating employee reactions…','Drafting the decision report…'];
+ show(`<div class=think><div class=ring><i></i><i></i><i></i><b class=o>AI</b></div><h2 class=ttl>AI MANAGER THINKING</h2><div class=chips>${S.skills.map(s=>'<span class=chip>'+esc(s)+'</span>').join('')}</div><p id=ln class=o style="color:var(--cy);min-height:1.6em;font-size:14px"></p><div class=pb><u id=pg></u></div></div>`);
+ let k=0,p=0;const iv=setInterval(()=>{$('#ln').textContent=L[k++%L.length];A.tone(500+Math.random()*500,.05,'square',.03)},1800),pv=setInterval(()=>{p=Math.min(p+Math.random()*3,94);$('#pg').style.width=p+'%'},400),t0=Date.now();
+ try{await api('decide',{});for(;;){await sleep(2500);const st=await api('state');if(st.status==='COMPLETED'){S=st;break}if(!st.busy)await api('decide',{})}await sleep(Math.max(0,7000-(Date.now()-t0)))}
+ catch(e){clearInterval(iv);clearInterval(pv);show('<p class=err style="text-align:center">'+esc(e.message)+'</p><button class="btn big" onclick="think()">TRY AGAIN</button>');return}
+ clearInterval(iv);clearInterval(pv);$('#pg').style.width='100%';await sleep(500);report()}
+function report(){show(`<h2 class=ttl>DECISION REPORT</h2><p class=sub>Prepared by the AI Manager · ${esc(S.engine||'')}</p><div class=rep>${SEC.map(([k,t],i)=>'<div class=rc style="animation-delay:'+i*.35+'s"><h3><span>'+String(i+1).padStart(2,'0')+'</span>'+t+'</h3><p>'+esc(S.report[k]).replace(/\n/g,'<br>')+'</p></div>').join('')}</div><button id=nx class="btn gold big">REVEAL MY SCORE</button>`);$('#nx').onclick=()=>{A.init();score()}}
+function score(){const C=2*Math.PI*80,T=S.total;
+ show(`<h2 class=ttl>DECISION SCORE</h2><div class=sc><svg viewBox="0 0 200 200"><defs><linearGradient id=g x1=0 y1=0 x2=1 y2=1><stop offset=0 stop-color="#00f0ff"/><stop offset=1 stop-color="#f5c542"/></linearGradient></defs><circle cx=100 cy=100 r=80 class=trk /><circle id=arc cx=100 cy=100 r=80 class=arc stroke-dasharray="${C}" stroke-dashoffset="${C}" transform="rotate(-90 100 100)"/></svg><div class=num><b id=n class=o>0</b><small>/ 100</small></div></div><h3 class="lvl o" id=lv></h3><div class=bd>${CR.map(([k,t])=>'<div class=br><span>'+t+'</span><i><u data-v='+S.score[k]+'></u></i><b>0/20</b></div>').join('')}</div><div class=panel id=vd style="display:none"></div><button id=nx class="btn gold big" style="visibility:hidden">REVEAL THE SECRET SKILLS</button>`);
+ requestAnimationFrame(()=>{$('#arc').style.strokeDashoffset=C*(1-T/100)});const t0=performance.now();
+ (function st(t){const q=Math.min((t-t0)/2600,1),v=Math.round(T*(1-Math.pow(1-q,3)));$('#n').textContent=v;if(q<1){if(v%3==0)A.tone(300+v*6,.04,'square',.03);requestAnimationFrame(st)}else done()})(t0);
+ async function done(){A.tone(880,.4,'sine',.15);A.tone(1320,.6,'sine',.12,.15);$('#lv').textContent=S.level.toUpperCase();
+  document.querySelectorAll('.bd u').forEach((u,i)=>setTimeout(()=>{u.style.width=u.dataset.v*5+'%';u.parentNode.nextSibling.textContent=u.dataset.v+'/20'},i*250));
+  await sleep(1500);const v=$('#vd');v.style.display='block';v.innerHTML='<h3 class=o style="color:var(--gd);font-size:14px">FINAL VERDICT</h3><p>'+esc(S.verdict)+'</p>';$('#nx').style.visibility='visible';$('#nx').onclick=()=>{A.init();secret()}}}
+async function secret(){const s=S.secret;
+ show(`<h2 class=ttl>THE SECRET SKILLS</h2><p class=sub>The host defined three essential skills. They stayed hidden until now.</p><div class=grid3>${s.skills.map((n,i)=>'<div class="sk '+(s.owned.includes(n)?'yes':'no')+'" id=k'+i+'><div class=in><div class=fr><b class=o>?</b></div><div class=bk><h3>'+esc(n)+'</h3><span>'+(s.owned.includes(n)?'✓ POSSESSED':'✗ MISSING')+'</span></div></div></div>').join('')}</div><div id=fin></div>`);
+ for(let i=0;i<3;i++){await sleep(900);const k=$('#k'+i);k.classList.add('flip');A.tone(k.classList.contains('yes')?988:196,.5,'sine',.15)}await sleep(900);
+ $('#fin').innerHTML=`<div class="panel ${s.passed?'pass':'fail'}"><h3 class=o>${s.passed?'SECRET SKILLS CHALLENGE: PASSED':'SECRET SKILLS CHALLENGE: NOT PASSED'}</h3><p>${s.passed?'Your manager possessed '+s.owned.length+' of the 3 essential skills.':'Your manager possessed none of the 3 essential skills.'}</p></div><div class="panel lock"><h3 class=o style="color:var(--gd)">🔒 MISSION COMPLETE</h3><p><b>${esc(S.name)}</b> · ${S.total}/100 · ${esc(S.level)}</p><p>Your result was permanently recorded on ${esc(new Date(S.submittedAt).toLocaleString('en-GB'))}. This team is now locked: no restart, no changes, no further attempts.</p></div>`}
+function route(){const t=S.status;t==='BUILDING'?market():t==='LOCKED'?box():t==='OPENED'?(S.busy?think():crisis()):report()}
+(async()=>{$('#mute').onclick=e=>{muted=!muted;e.target.textContent=muted?'🔇':'🔊'};
+ try{SK=(await api('skills')).skills}catch(e){return show('<p class=err style="text-align:center">Cannot reach the server. Please reload.</p>')}
+ if(token){try{S=await api('state');return route()}catch(e){if(e.code===401){localStorage.removeItem('bbtoken');token=null}}}
+ entry()})();
+</script></body></html>

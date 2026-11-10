@@ -1,0 +1,78 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>BLACK BOX – Command Center</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#03050c;--cy:#00f0ff;--rd:#ff2a4d;--gd:#f5c542;--tx:#d8e6ff;--mut:#7c8cab;--ok:#34f5a0}
+*{box-sizing:border-box;margin:0}
+body{min-height:100vh;background:radial-gradient(1200px 700px at 50% -10%,#10204a 0,var(--bg) 62%) fixed;color:var(--tx);font:500 16px/1.5 Rajdhani,system-ui,sans-serif}
+h1,h2,h3,.o{font-family:Orbitron,system-ui,sans-serif;letter-spacing:.08em}
+h1{font-weight:900;color:#fff;text-shadow:0 0 24px #00f0ff77}h1 span{color:var(--rd)}h1 small{font-size:11px;color:var(--gd);letter-spacing:.25em;display:block}
+.wrap{max-width:1250px;margin:0 auto;padding:16px 14px 60px}
+.lg{max-width:440px;margin:12vh auto;padding:0 16px;text-align:center}.lg h1{font-size:clamp(40px,12vw,70px)}
+.panel,.p2{background:linear-gradient(160deg,#0c1631dd,#060a18dd);border:1px solid #00f0ff33;border-radius:14px;padding:18px;margin:16px 0;box-shadow:0 0 40px #00f0ff10;text-align:left}
+input{width:100%;margin:10px 0 14px;padding:14px;border-radius:10px;border:1px solid #00f0ff55;background:#050914;color:#fff;font:700 18px Rajdhani;outline:0}
+.btn{cursor:pointer;display:inline-block;text-decoration:none;border:1px solid var(--cy);background:#00f0ff14;color:var(--cy);font:700 12px Orbitron;letter-spacing:.12em;padding:11px 16px;border-radius:10px;transition:.2s}.btn:hover{background:var(--cy);color:#001018}
+.gold{border-color:var(--gd);color:var(--gd);background:#f5c54212}.gold:hover{background:var(--gd);color:#150f00}.red{border-color:var(--rd);color:var(--rd);background:#ff2a4d14}.red:hover{background:var(--rd);color:#fff}
+.err{color:var(--rd);min-height:1.4em}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.top h1{font-size:clamp(24px,5vw,38px)}.tr{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.live{font:700 12px Orbitron;color:var(--ok)}.live i{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--ok);margin-right:7px;box-shadow:0 0 10px var(--ok);animation:bl 1.2s infinite}@keyframes bl{50%{opacity:.2}}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:16px 0}
+.st{background:linear-gradient(160deg,#0d1836,#070c1c);border:1px solid #00f0ff33;border-radius:14px;padding:14px;text-align:center}.st b{display:block;font-size:clamp(26px,5vw,38px);color:#fff;text-shadow:0 0 18px var(--cy)}.st small{color:var(--mut);letter-spacing:.12em;font-size:12px}
+.win{text-align:center;border:1px solid var(--gd);border-radius:16px;padding:22px 14px;margin:16px 0;background:radial-gradient(600px 220px at 50% 0,#f5c54222,transparent),#070c1c;box-shadow:0 0 50px #f5c54222}
+.trophy{font-size:64px;animation:tb 2s ease-in-out infinite;filter:drop-shadow(0 0 22px #f5c542)}@keyframes tb{50%{transform:translateY(-10px) scale(1.08) rotate(-4deg)}}
+.win h2{font-size:clamp(26px,6vw,46px);color:var(--gd);text-shadow:0 0 26px #f5c54299;margin:4px 0}.ws{font:900 clamp(40px,9vw,72px) Orbitron;color:#fff;text-shadow:0 0 26px var(--cy)}.ws small{font-size:.35em;color:var(--mut)}
+.cg{max-width:640px;margin:10px auto 14px;color:var(--tx)}
+.win.big{position:fixed;inset:0;z-index:25;margin:0;border-radius:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(900px 500px at 50% 30%,#f5c54233,transparent),#03050cf5;overflow:auto}.win.big .trophy{font-size:120px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:8px 0}td .chips{justify-content:flex-start;margin:0}.chip{border:1px solid #00f0ff55;border-radius:99px;padding:1px 10px;font-size:13px;color:var(--cy);background:#00f0ff0f;white-space:nowrap}.chip.g,.chip.ok{border-color:var(--gd);color:var(--gd)}.chip.ok{border-color:var(--ok);color:var(--ok)}.chip.no{border-color:var(--rd);color:var(--rd)}
+.hist{display:flex;align-items:flex-end;gap:8px;height:120px;padding-top:8px}.hist div{flex:1;text-align:center;font-size:11px;color:var(--mut);display:flex;flex-direction:column;justify-content:flex-end;height:100%}.hist u{display:block;background:linear-gradient(var(--gd),var(--cy));border-radius:4px 4px 0 0;min-height:2px;transition:height .8s}.hist b{color:var(--tx);font-size:12px}
+.tw{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:860px}th{font:700 11px Orbitron;letter-spacing:.12em;color:var(--mut);text-align:left;padding:8px;border-bottom:1px solid #00f0ff33}td{padding:10px 8px;border-bottom:1px solid #ffffff12;vertical-align:middle}
+tbody tr{cursor:pointer;transition:.15s}tbody tr:hover{background:#00f0ff10}tr.first{background:#f5c5420f}tr.first td:nth-child(2){color:var(--gd)}
+.sb{position:relative;height:22px;min-width:110px;background:#ffffff12;border-radius:6px;overflow:hidden}.sb u{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,#00f0ff66,#f5c54299)}.sb b{position:relative;padding-left:8px;line-height:22px}
+.stt{font:700 10px Orbitron;letter-spacing:.1em;padding:3px 9px;border-radius:99px;border:1px solid}.BUILDING{color:var(--mut)}.LOCKED{color:var(--cy)}.OPENED{color:var(--rd)}.COMPLETED{color:var(--ok)}
+.mod{position:fixed;inset:0;z-index:20;background:#000c;display:grid;place-items:center;padding:12px}.md{background:#070d20;border:1px solid var(--cy);border-radius:14px;padding:20px;max-width:780px;width:100%;max-height:92vh;overflow:auto;position:relative}.md h2{color:#fff;padding-right:40px}.md h3{color:var(--gd);font-size:12px;margin:16px 0 6px}.x{position:absolute;top:12px;right:12px;background:none;border:1px solid #ffffff33;color:#fff;border-radius:8px;width:34px;height:34px;cursor:pointer}
+.br{display:grid;grid-template-columns:1fr 1.1fr 50px;gap:10px;align-items:center;margin:7px 0;font-size:14px}.br i{height:9px;background:#ffffff14;border-radius:6px;overflow:hidden}.br u{display:block;height:100%;background:linear-gradient(90deg,var(--cy),var(--gd))}.br b{text-align:right;color:var(--gd)}
+.rc{background:#0a1229dd;border-left:3px solid var(--cy);border-radius:10px;padding:10px 14px;margin:8px 0}.rc h3{margin:0 0 4px}.mut{color:var(--mut);font-size:14px;margin:12px 0}
+#cf{position:fixed;inset:0;z-index:30;pointer-events:none;display:none}
+</style></head><body><main id=app class=wrap></main><canvas id=cf></canvas>
+<script>
+const $=s=>document.querySelector(s),app=$('#app');
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const SEC=[['analysis','Crisis Analysis'],['rootProblem','Root Problem'],['employeeStrategy','Employee Management Strategy'],['clientStrategy','Client Protection Strategy'],['solution','Proposed Solution'],['risks','Risk Analysis'],['plan','Implementation Plan'],['decision','Final Managerial Decision']];
+const CR=[['critical','Critical Analysis'],['employees','Employee Management'],['client','Client Protection'],['feasibility','Feasibility of the Solution'],['leadership','Leadership & Implementation']];
+const fmt=t=>new Date(t).toLocaleString('en-GB',{dateStyle:'medium',timeStyle:'medium'});
+let D=null,timer=null,big=false,lastKey='',built=false;
+const J=(u,b)=>fetch(u,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(b||{})});
+function login(msg){clearInterval(timer);built=false;lastKey='';app.innerHTML=`<div class=lg><h1>BLACK <span>BOX</span></h1><p class=o style="color:var(--gd);font-size:12px">COMMAND CENTER · HOST ACCESS ONLY</p><form id=f class=panel><label class=o style="font-size:12px;color:var(--cy)">ACCESS CODE</label><input id=pw type=password autocomplete=current-password required><button class="btn gold" style="width:100%">AUTHENTICATE</button><p class=err id=er>${esc(msg||'')}</p></form></div>`;
+ $('#f').onsubmit=async e=>{e.preventDefault();const r=await J('/api/admin/login',{password:$('#pw').value});if(r.ok)start();else{$('#er').textContent=((await r.json().catch(()=>({}))).error)||'Access denied.';$('#pw').value=''}}}
+async function load(){let r;try{r=await fetch('/api/admin/data')}catch(e){return}if(r.status===401)return login();D=await r.json();if(!built)shell();update()}
+function start(){load();clearInterval(timer);timer=setInterval(load,3000)}
+function shell(){built=true;app.innerHTML=`<header class=top><h1>BLACK <span>BOX</span><small>COMMAND CENTER</small></h1><div class=tr><span class=live><i></i>LIVE · <span id=up>—</span></span><a class=btn href="/api/admin/export.csv">EXPORT CSV</a><button class="btn red" id=lo>LOG OUT</button></div></header>
+<section class=stats>${[['tt','TOTAL TEAMS'],['cp','COMPLETED'],['hi','HIGHEST SCORE'],['lo','LOWEST SCORE'],['av','AVERAGE SCORE'],['ps','PASSED SECRET SKILLS']].map(a=>'<div class=st><b id='+a[0]+' class=o>0</b><small>'+a[1]+'</small></div>').join('')}</section>
+<section id=win class=win></section>
+<section class=p2><h3 class=o style="font-size:13px;color:var(--cy)">SCORE DISTRIBUTION</h3><div id=hist class=hist></div></section>
+<section class=p2><h3 class=o style="font-size:13px;color:var(--cy)">LIVE LEADERBOARD <small style="color:var(--mut);font-size:11px;letter-spacing:0">· ties broken by earliest submission · click a team for details</small></h3><div class=tw><table><thead><tr><th>RANK</th><th>TEAM</th><th>SCORE /100</th><th>PURCHASED SKILLS</th><th>SUBMITTED</th><th>LEVEL</th><th>STATUS</th></tr></thead><tbody id=tb></tbody></table></div></section><div id=md></div>`;
+ $('#lo').onclick=async()=>{await J('/api/admin/logout');login()};$('#tb').onclick=e=>{const r=e.target.closest('tr');if(r&&r.dataset.id)detail(r.dataset.id)}}
+function num(id,v,dec){const el=$('#'+id);if(v==null){el.textContent='—';el._v=0;return}const from=el._v||0,t0=performance.now();el._v=v;(function f(t){const q=Math.min((t-t0)/800,1),x=from+(v-from)*q;el.textContent=dec?x.toFixed(dec):Math.round(x);if(q<1)requestAnimationFrame(f)})(t0)}
+function chips(t){return t.skills.map(s=>'<span class="chip'+(D.secret.includes(s)?' g':'')+'">'+esc(s)+'</span>').join('')}
+function update(){$('#up').textContent=new Date().toLocaleTimeString('en-GB');
+ const k=JSON.stringify(D);if(k===lastKey)return;lastKey=k;
+ const T=D.teams,done=T.filter(t=>t.status==='COMPLETED'),sc=done.map(t=>t.total),pass=done.filter(t=>t.skills.some(s=>D.secret.includes(s))).length;
+ num('tt',T.length);num('cp',done.length);num('hi',sc.length?Math.max(...sc):null);num('lo',sc.length?Math.min(...sc):null);num('av',sc.length?sc.reduce((a,b)=>a+b,0)/sc.length:null,1);num('ps',pass);
+ const w=done[0],bins=Array(10).fill(0);sc.forEach(s=>bins[Math.min(9,Math.floor(s/10))]++);const mx=Math.max(1,...bins);
+ $('#hist').innerHTML=bins.map((n,i)=>'<div><b>'+(n||'')+'</b><u style="height:'+n/mx*85+'%"></u>'+i*10+(i==9?'-100':'')+'</div>').join('');
+ const wk=w?w.id+w.total+big:'';if($('#win').dataset.k!==wk){$('#win').dataset.k=wk;$('#win').className='win'+(big?' big':'');
+  $('#win').innerHTML=w?`<div class=trophy>🏆</div><p class=o style="color:var(--cy);font-size:12px">${big?'🎉 THE WINNER 🎉':'CURRENT LEADER'}</p><h2 class=o>${esc(w.name)}</h2><div class="ws">${w.total}<small> / 100</small></div><p class=o style="color:var(--gd)">${esc(w.level)}</p><div class=chips>${chips(w)}</div><p class=cg>${big?'Congratulations, <b>'+esc(w.name)+'</b>! Outstanding managerial judgement under pressure — your manager protected the people, the client and the company. Well played!':'Highest score so far. Announce the winner when every team has finished.'}</p><button class="btn gold" id=an>${big?'CLOSE':'ANNOUNCE WINNER'}</button>`:'<p class=o style="color:var(--gd)">🏆 WINNER SECTION · AWAITING THE FIRST COMPLETED MISSION…</p>';
+  const a=$('#an');if(a)a.onclick=()=>{big=!big;if(big)confetti();lastKey='';$('#win').dataset.k='';update()}}
+ $('#tb').innerHTML=T.map((t,i)=>{const c=t.status==='COMPLETED';return`<tr data-id="${t.id}"${c&&i==0?' class=first':''}><td class=o>${c?(i==0?'🏆 1':i+1):'—'}</td><td><b>${esc(t.name)}</b></td><td>${c?'<div class=sb><u style="width:'+t.total+'%"></u><b>'+t.total+'</b></div>':'—'}</td><td><div class=chips>${chips(t)||'—'}</div></td><td>${t.submittedAt?fmt(t.submittedAt):'—'}</td><td>${esc(t.level||'—')}</td><td><span class="stt ${t.status}">${t.status}</span></td></tr>`}).join('')||'<tr><td colspan=7 style="text-align:center;color:var(--mut)">No teams yet — waiting for the first registration…</td></tr>'}
+function detail(id){const t=D.teams.find(x=>x.id===id),m=$('#md');if(!t)return;const own=t.skills.filter(s=>D.secret.includes(s));
+ m.innerHTML=`<div class=mod><div class=md><button class=x id=cx>✕</button><h2 class=o>${esc(t.name)}</h2><p><span class="stt ${t.status}">${t.status}</span>${t.engine?' · '+esc(t.engine):''}</p>
+<h3 class=o>PURCHASED SKILLS</h3><div class=chips style="justify-content:flex-start">${chips(t)||'<span class=mut>None locked yet.</span>'}</div><p>Credits spent: <b>${t.spent}</b> · Remaining credits: <b>${100-t.spent}</b></p>
+<h3 class=o>SECRET SKILLS POSSESSED (${own.length}/3)</h3><div class=chips style="justify-content:flex-start">${D.secret.map(s=>'<span class="chip '+(t.skills.includes(s)?'ok':'no')+'">'+(t.skills.includes(s)?'✓ ':'✗ ')+esc(s)+'</span>').join('')}</div><p>${t.skills.length?(own.length?'Secret skills challenge: <b style="color:var(--ok)">PASSED</b>':'Secret skills challenge: <b style="color:var(--rd)">NOT PASSED</b>'):''}</p>
+${t.report?`<h3 class=o>SCORE BREAKDOWN · ${t.total}/100 · ${esc(t.level)}</h3>${CR.map(a=>'<div class=br><span>'+a[1]+'</span><i><u style="width:'+t.score[a[0]]*5+'%"></u></i><b>'+t.score[a[0]]+'/20</b></div>').join('')}<h3 class=o>FINAL PERFORMANCE EVALUATION</h3><p>${esc(t.verdict)}</p><h3 class=o>AI MANAGER DECISION</h3>${SEC.map(a=>'<div class=rc><h3>'+a[1]+'</h3><p>'+esc(t.report[a[0]]).replace(/\n/g,'<br>')+'</p></div>').join('')}`:'<p class=mut>No decision submitted yet.</p>'}
+<p class=mut>Registered ${fmt(t.createdAt)}${t.submittedAt?' · Submitted '+fmt(t.submittedAt):''}</p><button class="btn red" id=rm>REMOVE TEAM</button></div></div>`;
+ $('#cx').onclick=()=>{m.innerHTML=''};
+ $('#rm').onclick=async()=>{if(!confirm('Permanently remove "'+t.name+'" and its result? This cannot be undone.'))return;await J('/api/admin/remove',{id});m.innerHTML='';lastKey='';load()}}
+function confetti(){const c=$('#cf'),x=c.getContext('2d');c.width=innerWidth;c.height=innerHeight;c.style.display='block';const P=Array.from({length:240},()=>({x:Math.random()*c.width,y:-20-Math.random()*c.height*.6,vx:Math.random()*2-1,vy:2+Math.random()*4,s:5+Math.random()*7,c:['#f5c542','#00f0ff','#ff2a4d','#fff'][Math.random()*4|0],r:Math.random()*6}));let n=0;
+ (function f(){x.clearRect(0,0,c.width,c.height);P.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.r+=.1;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.fillStyle=p.c;x.fillRect(-p.s/2,-p.s/4,p.s,p.s/2);x.restore()});if(++n<420)requestAnimationFrame(f);else c.style.display='none'})()}
+start();
+</script></body></html>
